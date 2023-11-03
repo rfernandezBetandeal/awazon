@@ -21,12 +21,12 @@ class ItemController extends AbstractController
     {
         $item = $this->em->getRepository(Item::class)->find($id);
 
-        $custom_item = $this->em->getRepository(Item::class)->findItem($id);
-        /* $coments = $this->em->getRepository(Item::class)->findComents($id); */
+/*         $custom_item = $this->em->getRepository(Item::class)->findItem($id);
+ */        /* $coments = $this->em->getRepository(Item::class)->findComents($id); */
         return $this->render('item/index.html.twig', [
             'item' => $item,
-            'custom_item' => $custom_item,
-/*             'coments' => $coments,
+/*             'custom_item' => $custom_item,
+ *//*             'coments' => $coments,
  */        ]);
     }
 }
