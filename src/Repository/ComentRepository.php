@@ -24,7 +24,11 @@ class ComentRepository extends ServiceEntityRepository
     public function findComents($id){
         return $this->getEntityManager()
             -> createQuery("
-                SELECT coment.getItem, coment.coment FROM App:Coment coment WHERE coment.getItem =:id
+                SELECT coment.id, coment.coment, item.id, user.id, user.username
+                FROM App:coment coment
+                JOIN coment.item item
+                JOIN coment.user user
+                WHERE coment.item = :id
             ")
             ->setParameter('id', $id)
             ->getResult();

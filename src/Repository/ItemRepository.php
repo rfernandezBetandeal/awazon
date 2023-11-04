@@ -23,23 +23,33 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
+    /* public function findComents($itemId)
+    {
+        return $this->getEntityManager()
+        ->createQuery("
+            SELECT coment.id, coment.coment FROM App:coment coment WHERE item_id = :itemId
+        ")
+         ->setParameter("itemId", $itemId)
+        ->getResult();
+    } */
+
     /* 
     Pruebas
         public function findItem($id){
           return $this->getEntityManager()
         -> createQuery("
-            SELECT item.id, item.name, item.size, item.price, item.brand, item.description FROM App:Item item JOIN App:Coment coment WHERE item.id =:id AND coment.item_id = :id
+            SELECT item1.id, item1.name, item1.size, item1.price, item1.brand, item1.description FROM App:Item item1 JOIN App:Coment coment WHERE item1.id =:id AND coment.item_id = :id
         ")
         ->setParameter('id', $id)
         ->getResult();  
 
         $em = $this->getEntityManager()
         ->createQueryBuilder()
-        ->select("item.id, item.name, item.size, item.price, item.brand, item.description")
-        ->from("App:Item","item")
+        ->select("item1.id, item1.name, item1.size, item1.price, item1.brand, item1.description")
+        ->from("App:Item","item1")
         ->innerJoin("App:coment","coment")
-        ->where("coment.item = :id")
-        ->andWhere("item.id = :id")
+        ->where("coment.item1 = :id")
+        ->andWhere("item1.id = :id")
         ->setParameter("id", $id);
 
         return $em->getQuery()->getResult();
@@ -48,7 +58,7 @@ class ItemRepository extends ServiceEntityRepository
    /* public function findComents($id){
     return $this->getEntityManager()
         -> createQuery("
-            SELECT coment.item, coment.coment FROM App:Coment coment WHERE coment.item =:id
+            SELECT coment.item1, coment.coment FROM App:Coment coment WHERE coment.item1 =:id
         ")
         ->setParameter('id', $id)
         ->getResult();

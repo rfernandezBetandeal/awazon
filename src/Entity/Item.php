@@ -31,7 +31,7 @@ class Item
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Image::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'item1', targetEntity: Image::class, orphanRemoval: true)]
     private Collection $images;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'userValueItem')]
@@ -43,16 +43,22 @@ class Item
     #[ORM\ManyToMany(targetEntity: Basket::class, mappedBy: 'items')]
     private Collection $baskets;
 
-    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Coment::class)]
+    #[ORM\OneToMany(mappedBy: 'item1', targetEntity: Coment::class)]
     private Collection $coment;
 
-    public function __construct()
+    public function __construct($name = NULL, $size = "M", $price = 0, $brand = NULL, $description = NULL)
     {
         $this->images = new ArrayCollection();
         $this->users = new ArrayCollection();
 /*         $this->usersFavorite = new ArrayCollection();
- */        $this->baskets = new ArrayCollection();
-$this->coment = new ArrayCollection();
+ */     $this->baskets = new ArrayCollection();
+        $this->coment = new ArrayCollection();
+
+        $this->name = $name;
+        $this->size = $size;
+        $this->price = $price;
+        $this->brand = $brand;
+        $this->description = $description;
     }
 
     public function getId(): ?int

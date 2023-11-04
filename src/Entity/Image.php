@@ -19,7 +19,7 @@ class Image
 
     #[ORM\ManyToOne(targetEntity:"Image" ,inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Item $item = null;
+    private ?Item $item1 = null;
 
     public function getId(): ?int
     {
@@ -40,12 +40,12 @@ class Image
 
     public function getItem(): ?Item
     {
-        return $this->item;
+        return $this->item1;
     }
 
-    public function setItem(?Item $item): static
+    public function setItem(?Item $item1): static
     {
-        $this->item = $item;
+        $this->item1 = $item1;
 
         return $this;
     }

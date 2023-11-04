@@ -57,13 +57,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Basket::class)]
     private Collection $baskets;
 
-    #[ORM\ManyToMany(targetEntity: item::class, inversedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Item::class, inversedBy: 'users')]
     private Collection $userValueItem;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Coment::class)]
     private Collection $coments;
 
-/*     #[ORM\ManyToMany(targetEntity: item::class, inversedBy: 'usersFavorite')]
+/*     #[ORM\ManyToMany(targetEntity: item1::class, inversedBy: 'usersFavorite')]
     private Collection $userFavorite; */
 
     public function __construct()
@@ -290,14 +290,14 @@ $this->coments = new ArrayCollection();    }
     }
 
     /**
-     * @return Collection<int, item>
+     * @return Collection<int, Item>
      */
     public function getUserValueItem(): Collection
     {
         return $this->userValueItem;
     }
 
-    public function addUserValueItem(item $userValueItem): static
+    public function addUserValueItem(Item $userValueItem): static
     {
         if (!$this->userValueItem->contains($userValueItem)) {
             $this->userValueItem->add($userValueItem);
@@ -306,7 +306,7 @@ $this->coments = new ArrayCollection();    }
         return $this;
     }
 
-    public function removeUserValueItem(item $userValueItem): static
+    public function removeUserValueItem(Item $userValueItem): static
     {
         $this->userValueItem->removeElement($userValueItem);
 
@@ -314,14 +314,14 @@ $this->coments = new ArrayCollection();    }
     }
 
     /**
-     * @return Collection<int, item>
+     * @return Collection<int, item1>
      */
     /* public function getUserFavorite(): Collection
     {
         return $this->userFavorite;
     }
 
-    public function addUserFavorite(item $userFavorite): static
+    public function addUserFavorite(item1 $userFavorite): static
     {
         if (!$this->userFavorite->contains($userFavorite)) {
             $this->userFavorite->add($userFavorite);
@@ -330,7 +330,7 @@ $this->coments = new ArrayCollection();    }
         return $this;
     }
 
-    public function removeUserFavorite(item $userFavorite): static
+    public function removeUserFavorite(item1 $userFavorite): static
     {
         $this->userFavorite->removeElement($userFavorite);
 

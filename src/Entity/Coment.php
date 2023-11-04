@@ -25,6 +25,13 @@ class Coment
     #[ORM\JoinColumn(nullable: false)]
     private ?Item $item = null;
 
+    public function __construct($user, $item1, $content)
+    {
+        $this->user = $user;
+        $this->item = $item1;
+        $this->coment = $content;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,9 +66,9 @@ class Coment
         return $this->item;
     }
 
-    public function setItem(?Item $item): static
+    public function setItem(?Item $item1): static
     {
-        $this->item = $item;
+        $this->item = $item1;
 
         return $this;
     }

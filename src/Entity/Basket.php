@@ -20,7 +20,7 @@ class Basket
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToMany(targetEntity: item::class, inversedBy: 'baskets')]
+    #[ORM\ManyToMany(targetEntity: Item::class, inversedBy: 'baskets')]
     private Collection $items;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -49,25 +49,25 @@ class Basket
     }
 
     /**
-     * @return Collection<int, item>
+     * @return Collection<int, Item>
      */
     public function getItems(): Collection
     {
         return $this->items;
     }
 
-    public function addItem(item $item): static
+    public function addItem(Item $item1): static
     {
-        if (!$this->items->contains($item)) {
-            $this->items->add($item);
+        if (!$this->items->contains($item1)) {
+            $this->items->add($item1);
         }
 
         return $this;
     }
 
-    public function removeItem(item $item): static
+    public function removeItem(Item $item1): static
     {
-        $this->items->removeElement($item);
+        $this->items->removeElement($item1);
 
         return $this;
     }
