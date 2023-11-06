@@ -17,9 +17,12 @@ class Image
     #[ORM\Column(type: Types::TEXT)]
     private ?string $route = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Item $item = null;
+
     #[ORM\ManyToOne(targetEntity:"Image" ,inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Item $item1 = null;
 
     public function getId(): ?int
     {
@@ -40,13 +43,14 @@ class Image
 
     public function getItem(): ?Item
     {
-        return $this->item1;
+        return $this->item;
     }
 
-    public function setItem(?Item $item1): static
+    public function setItem(?Item $item): static
     {
-        $this->item1 = $item1;
+        $this->item = $item;
 
         return $this;
     }
+
 }

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Awazon | Todo lo que necesitas para ir a la moda!{% endblock %}
+
+{% block body %}
+
+    {{dump(item)}}
+
+    {% for item in item %}
+
+        <div id="item{{ item.id }}">
+
+            
+
+        </div>
+
+    {% endfor %}
+
+{% endblock %}

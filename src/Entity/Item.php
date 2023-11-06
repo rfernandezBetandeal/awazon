@@ -46,6 +46,9 @@ class Item
     #[ORM\OneToMany(mappedBy: 'item1', targetEntity: Coment::class)]
     private Collection $coment;
 
+    #[ORM\Column(length: 255)]
+    private ?string $url = null;
+
     public function __construct($name = NULL, $size = "M", $price = 0, $brand = NULL, $description = NULL)
     {
         $this->images = new ArrayCollection();
@@ -263,6 +266,18 @@ class Item
                 $coment->setItem(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): static
+    {
+        $this->url = $url;
 
         return $this;
     }

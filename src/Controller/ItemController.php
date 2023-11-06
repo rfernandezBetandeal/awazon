@@ -42,6 +42,17 @@ class ItemController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $url = str_replace('|','', $form->get('name')->getData());
+            $url = str_replace('.','', $url);
+            $url = str_replace(',','', $url);
+            $url = str_replace(' ', '-', $url);
+            $url = str_replace('--','-', $url);
+            $url = str_replace('---','-', $url);
+            
+            $url = strtolower($url);
+
+            $item->setUrl($url);
+
             $this->em->persist($item);
             $this->em->flush();
 

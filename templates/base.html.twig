@@ -6,14 +6,90 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
         {% endblock %}
     </head>
     <body>
+        {% block header %}
+        
+            <header class="bg-body-tertiary d-flex">
+            
+                <h1 class="bg-body-tertiary text-center m-auto">
+                    
+                    <a href="{{ asset("./") }}" class="link-dark text-decoration-none">Awazon!</a>
+                    
+                </h1>
+
+                {% if is_granted('ROLE_USER') %}
+
+                    <ul class="navbar-nav me-4 mb-2 mt-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Hey, {{app.user.name}}!
+
+                            {% if app.user.profilePicture != null %}
+                            <img style="width:25px" class="rounded" src="{{ asset("uploads/user_pictures/" ~ app.user.profilePicture) }}"/> 
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu z-6">
+                            <li><a class="dropdown-item" href="{{ asset('user/' ~ app.user.id) }}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ asset('logout') }}">Log out</a></li>
+                        </ul>
+                        
+                        </li>
+                        </li>
+                    </ul>
+                
+                {% else %}
+
+                    <ul class="navbar-nav me-4 mb-2 mt-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Log In
+                        </a>
+                        <ul class="dropdown-menu z-6">
+                            <li><a class="dropdown-item" href="{{ asset("login") }}">Log In</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ asset("register/user") }}">Sign Up</a></li>
+                        </ul>
+                        </li>
+                        </li>
+                    </ul>
+
+                {% endif %}
+
+            </header>
+
+            <nav class="navbar navbar-expand-lg bg-body-tertiary z-1 sticky-top p-0">
+                <div class="container-fluid z-9">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav navbar-brand me-auto mb-2 mb-lg-0">
+                        <li class="nav-item navbar-brand">
+                            <a class="nav-link active" aria-current="page" href="#">Navbar</a>
+                        </li>
+                        <li class="nav-item navbar-brand">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item navbar-brand">
+                        <a class="nav-link active" href="#">Link</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    </div>
+                    </div>
+                </div>
+            </nav>
+        
+        {% endblock %}
         {% block body %}{% endblock %}
+        <script src="{{asset('js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     </body>
 </html>

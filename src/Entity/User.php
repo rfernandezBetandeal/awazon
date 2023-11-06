@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -63,17 +65,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Coment::class)]
     private Collection $coments;
 
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
 /*     #[ORM\ManyToMany(targetEntity: item1::class, inversedBy: 'usersFavorite')]
     private Collection $userFavorite; */
 
-    public function __construct()
+    public function __construct($name = NULL, $surname1 = NULL, $surname2 = NULL, $username = NULL, $email = NULL, $password = NULL, $wallet = 0, $bithDate = null, $profilePicture = null)
     {
         $this->adress = new ArrayCollection();
         $this->baskets = new ArrayCollection();
         $this->userValueItem = new ArrayCollection();
-/*         $this->userFavorite = new ArrayCollection();
- */
-$this->coments = new ArrayCollection();    }
+        $this->coments = new ArrayCollection();
+        $this->name = $name;
+        $this->surname1 = $surname1;
+        $this->surname2 = $surname2;
+        $this->username = $username;
+        $this->email = $email;
+        $this->password = $password;
+        $this->wallet = $wallet;
+        $this->bithDate = $bithDate;
+        $this->profilePicture = $profilePicture;
+
+}
 
     public function getId(): ?int
     {
@@ -363,6 +377,18 @@ $this->coments = new ArrayCollection();    }
                 $coment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Coment;
 use App\Entity\Item;
+use App\Entity\Image;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,6 +23,17 @@ class ItemRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Item::class);
+    }
+
+    public function findAllItems(){
+        return $this->getEntityManager()
+        ->createQuery("
+            SELECT image.id, item.id, image.route, item.name, item.url, item.description, item.price, item.brand
+            FROM App:image image
+            JOIN image.item item
+            GROUP BY image.item
+        ")
+        ->getResult();
     }
 
     /* public function findComents($itemId)
