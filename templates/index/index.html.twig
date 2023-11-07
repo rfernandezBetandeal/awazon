@@ -31,7 +31,7 @@
             <div class="bg-danger-subtle mx-0 {% if item.important %} h-100 w-50 {% else %} h-50 {% endif %}" style="{% if item.important %} {% else %} height: 50%; {% endif %}">
                 <img src="" class="card-img-top" alt="Not found">
             </div>
-            <div class="position-relative card-body {% if item.important %} {% else %} {% endif %}" >
+            <div class="position-relative card-body {% if item.important %} w-50 {% else %} h-50 {% endif %}" >
                 <h5 class="card-title">{{ item.name | upper }}</h5>
                 <p class="card-text">{{ item.description|length > 50 ? item.description|slice(0, 50) ~ '...' : item.description  }}</p>
                 <p class="card-text">{{ item.price ~ "€" }}</p>
