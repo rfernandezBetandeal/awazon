@@ -36,6 +36,28 @@ class ItemRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+    public function findByUrl($url){
+    
+        return $this->getEntityManager()
+        ->createQuery("
+            SELECT item.id, item.name, item.description, item.brand, item.url, item.price
+            FROM App:item item
+            WHERE item.url = :url
+        ")
+        ->setMaxResults(1)
+        ->setParameter("url", $url)
+        ->getResult();
+    
+    }
+
+    public function listEdits(){
+        return $this->getEntityManager()
+        ->createQuery("
+            SELECT item.id, item.name, item.description, item.brand, item.url, item.price
+            FROM App:item item 
+        ");
+    }
+
     /* public function findComents($itemId)
     {
         return $this->getEntityManager()

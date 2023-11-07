@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Item Dedicated Page{% endblock %}
+
+{% block body %}
+
+  <div id="removeContainer" class="w-100 d-flex justify-content-end">
+    <a href="{{ asset('remove/item/' ~ item.id) }}"><button type="button" class="btn btn-danger mx-5 my-3">Remove item</button></a>
+  </div>
+
+  <div id="container" class="d-flex justify-content-around align-items-center"> 
+  
+    <div id="carouselExample" class="carousel slide ms-5" style="height:60vh; width:40vw;">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="d-block bg-primary" style="height:60vh; width:40vw;"></div>
+            {# <img src="" class="d-block w-100" alt="..."> #}
+            </div>
+            <div class="carousel-item">
+                <div class="d-block bg-success" style="height:60vh; width:40vw;"></div>
+            {# <img src="" class="d-block w-100" alt="..."> #}
+            </div>
+            <div class="carousel-item">
+                <div class="d-block bg-danger" style="height:60vh; width:40vw;"></div>
+            {# <img src="" class="d-block w-100" alt="..."> #}
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+        </div>
+
+    <div id="dataContainer" class="w-50">
+
+      {{ form(form) }}
+
+    </div>
+
+  </div>
+
+{% endblock %}

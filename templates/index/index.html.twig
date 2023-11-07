@@ -4,16 +4,45 @@
 
 {% block body %}
 
-    {{dump(item)}}
-
+    <div id="container" class="d-flex flex-wrap p-3 px-4 mx-3 justify-content-center">
     {% for item in item %}
 
-        <div id="item{{ item.id }}">
+        {# <div id="item{{ item.id }}" class="" style="width:33%">
 
-            
+            <div id="imageItem{{ item.id }}" class="">
 
+                <img src="">
+
+            </div>
+             <div id="dataItem{{ item.id }}">
+
+                <div id="nameItem{{ item.id }}"><a href="{{ asset("item/" ~ item.url) }}"><p>{{ item.name | upper }}</p></a></div>
+                <div id="descriptionItem{{ item.id }}"><p>{{ item.description | upper }}</p></div>
+                <div id="brand{{ item.id }}"><p>{{ item.brand | upper }}</p></div>
+                <div id="size{{ item.id }}"><p>{{ item.size | upper }}</p></div>
+                <div id="price{{ item.id }}"><p>{{ item.price ~ "€" }}</p></div>
+
+            </div>
+
+
+        </div> #}
+
+        <div class="{% if item.important %} d-flex justify-content-around flex-row {% else %}  {% endif %} card my-1 mx-2 p-0" style="{% if item.important %} width: 36rem; {% else %} width: 18rem; {% endif %} min-height:350px;">
+            <div class="bg-danger-subtle mx-0 {% if item.important %} h-100 w-50 {% else %} h-50 {% endif %}" style="{% if item.important %} {% else %} height: 50%; {% endif %}">
+                <img src="" class="card-img-top" alt="Not found">
+            </div>
+            <div class="position-relative card-body {% if item.important %} {% else %} {% endif %}" >
+                <h5 class="card-title">{{ item.name | upper }}</h5>
+                <p class="card-text">{{ item.description|length > 50 ? item.description|slice(0, 50) ~ '...' : item.description  }}</p>
+                <p class="card-text">{{ item.price ~ "€" }}</p>
+                <div class="w-100 d-flex justify-content-end me-2 position-absolute" style="bottom: 10px; right: 5px;">
+                <a href="{{ asset("item/" ~ item.url) }}" class="btn btn-success">More...</a>
+                </div>
+            </div>
         </div>
 
     {% endfor %}
+
+    </div>
 
 {% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Items list{% endblock %}
+
+{% block body %}
+
+        <div id="searchContainer" class="d-flex justify-content-around alignt-items-center">
+
+            <div class="navbar w-25">
+            <form class="container-fluid">
+                <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">ID</span>
+                <input type="text" class="form-control" placeholder="Put the ID here" aria-label="ID" aria-describedby="basic-addon1">
+                </div>
+            </form>
+            </div>
+
+            <div class="navbar w-25">
+            <form class="container-fluid">
+                <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">Name</span>
+                <input type="text" class="form-control" placeholder="Put the item name here" aria-label="itemName" aria-describedby="basic-addon1">
+                </div>
+            </form>
+            </div>
+
+            <div class="navbar w-25">
+            <form class="container-fluid">
+                <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">URL</span>
+                <input type="text" class="form-control" placeholder="Put the item URL here" aria-label="URL" aria-describedby="basic-addon1">
+                </div>
+            </form>
+            </div>
+
+        </div>
+
+        <div class="list-group">
+
+            {% for item in pagination %}
+
+                <a href="{{ asset('edit/item/' ~ item.id) }}" class="list-group-item list-group-item-action my-2" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ item.name }}</h5>
+                    <small>#{{ item.id }}</small>
+                    </div>
+                    <p class="mb-1">{{ item.url }}</p>
+                    <small>{{ item.description }}</small>
+                </a>
+
+            {% endfor %}
+        
+        </div>
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+{% endblock %}

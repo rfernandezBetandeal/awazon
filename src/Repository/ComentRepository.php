@@ -24,11 +24,12 @@ class ComentRepository extends ServiceEntityRepository
     public function findComents($id){
         return $this->getEntityManager()
             -> createQuery("
-                SELECT coment.id, coment.coment, item.id, user.id, user.username
+                SELECT coment.id, coment.coment, item.id, user.id, user.username, user.profilePicture
                 FROM App:coment coment
                 JOIN coment.item item
                 JOIN coment.user user
                 WHERE coment.item = :id
+                ORDER BY coment.id DESC
             ")
             ->setParameter('id', $id)
             ->getResult();

@@ -25,7 +25,7 @@ class Coment
     #[ORM\JoinColumn(nullable: false)]
     private ?Item $item = null;
 
-    public function __construct($user, $item1, $content)
+    public function __construct($user = null, $item1 = null, $content = null)
     {
         $this->user = $user;
         $this->item = $item1;

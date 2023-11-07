@@ -23,7 +23,7 @@ class IndexController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(): Response
     {
-        $item = $this->em->getRepository(Item::class)->findAllItems();
+        $item = $this->em->getRepository(Item::class)->findAll();
 
         return $this->render('index/index.html.twig', [
             'item' => $item,

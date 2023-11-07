@@ -159,4 +159,16 @@ class UserController extends AbstractController
 
     }
 
+    #[Route('/user/', name: 'redirectToProfile')]
+    public function redirectToProfile(): Response {
+
+        $user = $this->getUser();
+        $id = $user->getId();
+
+        //die(var_dump($user->getId()));
+
+        return $this->redirectToRoute('app_user', ['id'=> $id]);
+
+    }
+
 }

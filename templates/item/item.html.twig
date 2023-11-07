@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ item[0].name | upper }}{% endblock %}
+
+{% block body %}
+
+    <div id="itemContainer" class="d-flex justify-content-around align-items-center px-5 mb-5 mt-5">
+
+        <div id="carouselExample" class="carousel slide ms-5" style="height:60vh; width:40vw;">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="d-block bg-primary" style="height:60vh; width:40vw;"></div>
+            {# <img src="" class="d-block w-100" alt="..."> #}
+            </div>
+            <div class="carousel-item">
+                <div class="d-block bg-success" style="height:60vh; width:40vw;"></div>
+            {# <img src="" class="d-block w-100" alt="..."> #}
+            </div>
+            <div class="carousel-item">
+                <div class="d-block bg-danger" style="height:60vh; width:40vw;"></div>
+            {# <img src="" class="d-block w-100" alt="..."> #}
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+        </div>
+
+        <div id="dataContainer" class="pe-5" style="width: 40vw">
+        
+            <div id="nameIdContainer">
+                <p class="fw-bold">{{ item[0].name | upper }} <span class="fst-normal text-secondary opacity-50">#{{ item[0].id }}</span></p>
+            </div>
+            <p>{{ item[0].description }}</p>
+            <p class="text-black-50">{{ item[0].brand | upper }}</p>
+            <p>{{ item[0].price }}€</p>
+
+            <button type="button" class="btn btn-success m-auto">Add to the basket</button>
+        
+        </div>
+
+
+    </div>
+
+
+        <ul class="list-group list-group-flush d-flex flex-direction-column g-row-2 justify-content-around align-items-center" id="comentContainer">
+
+
+                <li class="list-group-item d-flex" id="newComent" style="width: 80vw;">
+                
+                    <div id="newComentImage" class="d-flex justify-content-center align-items-center me-3">
+                    
+                        {% if app.user.profilePicture != null %}
+
+                            <img src="{{ asset("uploads/user_pictures/") ~ app.user.profilePicture }}" alt="Not Found" style="height: 50px; width: 50px;" class="rounded-circle">
+
+                        {% else %}
+
+                            <div class="bg-success-subtle" style="height: 50px; width: 50px;" class="rounded-circle"></div>
+
+                        {% endif %}
+                    
+                    </div>
+
+                    <div id="userData" class="pt-4">
+
+                        <p id="name" class="fw-bold">{{ app.user.username }}</p>
+                        
+                        {{ form(newComent) }}
+
+                    </div>
+                
+                </li>
+
+        </ul>
+
+        <ul class="list-group list-group-flush d-flex flex-direction-column g-row-2 justify-content-around align-items-center" id="comentContainer">
+
+        {% for coment in coments %}
+
+                <li class="list-group-item d-flex" id="coment{{ coment.id }}" style="width: 80vw;">
+                
+                    <div id="comentImage" class="d-flex justify-content-center align-items-center me-3">
+                    
+                        {% if coment.profilePicture != null %}
+
+                            <img src="{{ asset("uploads/user_pictures/") ~ coment.profilePicture }}" alt="Not Found" style="height: 50px; width: 50px;" class="rounded-circle">
+
+                        {% else %}
+
+                            <div class="bg-success-subtle" style="height: 50px; width: 50px;" class="rounded-circle"></div>
+
+                        {% endif %}
+                    
+                    </div>
+
+                    <div id="userData" class="pt-4">
+
+                        <p id="name" class="fw-bold">{{ coment.username }}</p>
+                        <p id="name">{{ coment.coment }}</p>
+
+                    </div>
+                
+                </li>
+
+        {% endfor %}
+
+        </ul>
+
+
+{% endblock %}

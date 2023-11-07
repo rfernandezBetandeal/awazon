@@ -1,10 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ItemController!{% endblock %}
+{% block title %}Creating Item...{% endblock %}
 
 {% block body %}
 
-    {{dump(item)}}
-    {{dump(coments)}}
+  <div id="container" class="d-flex justify-content-around align-items-center"> 
+  
+    <div id="imageContainer" class="bg-primary" style="height:60vh; width:40vw;">
 
+    {#    {{ form(imageForm) }}   #}  
+
+    </div>
+
+    <div id="dataContainer" class="w-50">
+
+      {{ form(form) }}
+
+    </div>
+
+  </div>
 {% endblock %}

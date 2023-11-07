@@ -31,7 +31,7 @@ class Item
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'item1', targetEntity: Image::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Image::class, orphanRemoval: true)]
     private Collection $images;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'userValueItem')]
@@ -43,11 +43,14 @@ class Item
     #[ORM\ManyToMany(targetEntity: Basket::class, mappedBy: 'items')]
     private Collection $baskets;
 
-    #[ORM\OneToMany(mappedBy: 'item1', targetEntity: Coment::class)]
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Coment::class)]
     private Collection $coment;
 
     #[ORM\Column(length: 255)]
     private ?string $url = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $important = null;
 
     public function __construct($name = NULL, $size = "M", $price = 0, $brand = NULL, $description = NULL)
     {
@@ -278,6 +281,18 @@ class Item
     public function setUrl(string $url): static
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    public function isImportant(): ?bool
+    {
+        return $this->important;
+    }
+
+    public function setImportant(?bool $important): static
+    {
+        $this->important = $important;
 
         return $this;
     }
