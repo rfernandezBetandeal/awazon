@@ -8,13 +8,17 @@ use App\Entity\Item;
 use App\Form\ImageType;
 use App\Form\ItemType;
 use App\Form\NewComentType;
+use App\Form\SearchType;
+use App\Form\SearchUserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ItemController extends AbstractController
 {
@@ -163,15 +167,43 @@ class ItemController extends AbstractController
 
 /*         $items = $this->em->getRepository(Item::class)->findAll();
  */
-        $query = $this->em->getRepository(Item::class)->listEdits();
+        $item = new Item();
 
-        $pagination = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
-        );
+        $search = $this->createForm(SearchType::class, $item);
 
-        return $this->render('item/edit.html.twig', ['pagination' => $pagination]);
+        $search->handleRequest($request);
+
+        if($search->isSubmitted()){
+
+            $id = $search->get('id')->getData();
+            $name = $search->get('name')->getData();
+            $url = $search->get('url')->getData();
+
+
+            $query = $this->em->getRepository(Item::class)->findSearch($id, $name, $url);
+
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                10 /*limit per page*/
+            );
+            
+        }else{
+
+            $query = $this->em->getRepository(Item::class)->listEdits();
+
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                10 /*limit per page*/
+            );
+
+        }
+
+        return $this->render('item/edit.html.twig', [
+            'pagination' => $pagination,
+            'search' => $search->createView(),
+        ]);
     }
 
     #[Route('/remove/item/{id}', name: 'remove_item')]
@@ -186,41 +218,155 @@ class ItemController extends AbstractController
             return $this->redirectToRoute('edit_list');
     }
 
-    /* #[Route('/insert/item', name:'insert_item')]
-    public function insert()
+    #[Route('/search', name: 'search')]
+    public function search(PaginatorInterface $paginator, Request $request): Response
     {
-        $desc = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi quidem atque aspernatur recusandae? Maxime, minus ex! Sint dolor velit voluptatibus accusantium nemo beatae harum adipisci, dicta totam obcaecati sapiente eius.";
-        $item = new Item("Segundo insert", "M", 9.99, "BNA", $desc); 
 
+        $item = new Item();
 
+        $search = $this->createForm(SearchUserType::class, $item);
+        $categories = $this->em->getRepository(Item::class)->findCategories();
+        $images = $this->em->getRepository(Image::class)->findCardsImages();
 
-        $this->em->persist($item);
-        $this->em->flush();
+        $search->handleRequest($request);
 
-        return new JsonResponse(["success"=> true]);
-    } */
+        if($search->isSubmitted()){
 
-    /* #[Route('/update/item/{id}', name:'update_item')]
-    public function update($id)
+            $name = $search->get('name')->getData();
+
+            $query = $this->em->getRepository(Item::class)->findSearch(name: $name);
+
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                30 /*limit per page*/
+            );
+            
+        }else{
+
+            $query = $this->em->getRepository(Item::class)->findAllSearch();
+
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                30 /*limit per page*/
+            );
+
+        }
+
+        return $this->render('item/search.html.twig', [
+            'images' => $images,
+            'categories'=> $categories,
+            'pagination' => $pagination,
+            'search' => $search->createView(),
+        ]);
+ 
+    }
+
+    #[Route('/search/{category}', name: 'searchCategory')]
+    public function searchCategory($category, PaginatorInterface $paginator, Request $request): Response
     {
-        $desc = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi quidem atque aspernatur recusandae? Maxime, minus ex!";
-        $item = $this->em->getRepository(Item::class)->find($id);
 
-        $item->setDescription($desc);
-        $item->setPrice(5.99);
-        $this->em->flush();
+        $categories = $this->em->getRepository(Item::class)->findCategories();
 
-        return new JsonResponse(["success"=> true]);
-    } */
+        $item = new Item();
+        $search = $this->createForm(SearchUserType::class, $item);
 
-    /* #[Route('/remove/item/{id}', name:'remove_item')]
-    public function remove($id)
+        $search->handleRequest($request);
+
+        if($search->isSubmitted()){
+
+            $name = $search->get('name')->getData();
+
+            $query = $this->em->getRepository(Item::class)->findSearch(name: $name);
+
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                30 /*limit per page*/
+            );
+            
+        }else{
+
+            $query = $this->em->getRepository(Item::class)->findBy(['category' => $category]);
+
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                30 /*limit per page*/
+            );
+
+        }
+ 
+        return $this->render('item/search.html.twig', [
+            'categories' => $categories,
+            'pagination' => $pagination,
+            'search' => $search->createView(),
+        ]);
+    }
+
+    #[Route('/insert/image/{itemId}', name: 'insertImage')]
+    public function insertImage(Request $request, SluggerInterface $slugger, $itemId)
     {
-    
-        $item = $this->em->getRepository(Item::class)->find($id);
-        $this->em->remove($item);
-        $this->em->flush();
 
-        return new JsonResponse(["success"=> true]);
-    } */
+            $item = $this->em->getRepository(Item::class)->find($itemId);
+
+            $images = $item->getImages();
+
+            $image = new Image();
+            $imageForm = $this->createForm(ImageType::class, $image);
+
+            $imageForm->handleRequest($request);
+
+            if($imageForm->isSubmitted()){
+
+                $profilePicture = $imageForm->get('route')->getData();
+
+                if($profilePicture)
+                {
+                    $originalFilename = pathinfo($profilePicture->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFileName = $slugger->slug($originalFilename);
+                    $newFileName = $safeFileName.'-'.uniqid().'.'.$profilePicture->guessExtension();
+
+                    try {
+                        $profilePicture->move(
+                            $this->getParameter('user_files_directory'),
+                            $newFileName
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                        throw new \Exception($e->getMessage());
+                    }
+
+                    $image->setRoute($newFileName);
+                }
+
+                $image->setItem($item);
+
+                    $item->setPortada($newFileName);
+
+                $this->em->persist($image);
+                $this->em->flush();
+
+            }
+
+            return $this->render('item/image.html.twig', [
+                'imageForm' => $imageForm->createView(),
+                'item' => $item,
+                'images' => $images,
+            ]);
+ 
+    }
+
+    #[Route('/remove/image/{id}/{itemId}', name: 'removeImage')]
+    public function removeImage($id, $itemId): Response
+    {
+
+        $image = $this->em->getRepository(Image::class)->find($id);
+
+            $this->em->remove($image);
+            $this->em->flush();
+ 
+            return $this->redirectToRoute('insertImage', ['itemId'=> $itemId]);
+    }
 }

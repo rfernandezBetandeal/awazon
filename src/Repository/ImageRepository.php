@@ -21,6 +21,16 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
+    public function findCardsImages(){
+        return $this->getEntityManager()
+        ->createQuery("
+            SELECT image.route
+            FROM App:image image
+            GROUP BY image.item
+        ")
+        ->getResult();
+    }
+
 //    /**
 //     * @return Image[] Returns an array of Image objects
 //     */

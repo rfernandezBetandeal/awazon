@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -23,12 +24,30 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('surname1')
-            ->add('surname2')
-            ->add('username')
-            ->add('email', EmailType::class)
-            ->add('bith_date', BirthdayType::class)
+            ->add('name', TextType::class, [
+                "required" => true,
+            ])
+            ->add('surname1', TextType::class, [
+                "required" => true,
+            ])
+            ->add('surname2', TextType::class, [
+                "required" => false,
+            ])
+            ->add('username', TextType::class, [
+                "required" => true,
+            ])
+            ->add('email', EmailType::class, [
+                'required' => true
+            ])
+            ->add('bith_date', BirthdayType::class, [
+                'placeholder' => [
+                    'year' => 'Year',
+                    'month' => 'Month',
+                    'day' => 'Day',
+                ],
+                'widget' => 'single_text',
+                'required' => true
+            ])
             ->add('profile_picture', FileType::class,[
                 'label' => 'picture',
                 'required' => false,
@@ -50,6 +69,7 @@ class RegistrationFormType extends AbstractType
                 // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
+                'required' => true,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -62,15 +82,9 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
+            ->add('submit', SubmitType::class, [
+                "label" => "Sign Up",
             ])
-            ->add('submit', SubmitType::class)
         ;
     }
 

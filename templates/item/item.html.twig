@@ -4,6 +4,7 @@
 
 {% block body %}
 
+
     <div id="itemContainer" class="d-flex justify-content-around align-items-center px-5 mb-5 mt-5">
 
         <div id="carouselExample" class="carousel slide ms-5" style="height:60vh; width:40vw;">
@@ -67,11 +68,15 @@
                     
                     </div>
 
-                    <div id="userData" class="pt-4">
+                    <div id="userData" class="pt-4 w-100">
 
                         <p id="name" class="fw-bold">{{ app.user.username }}</p>
                         
-                        {{ form(newComent) }}
+                        <div id="newComent" class="mb-2 w-100">
+                            {{ form_widget(newComent.coment) }}
+                        </div>
+
+                        {{ form_widget(newComent.send) }}
 
                     </div>
                 
@@ -112,5 +117,9 @@
 
         </ul>
 
+
+{% endblock %}
+{% block juvascript %}
+    {{ parent() }}
 
 {% endblock %}

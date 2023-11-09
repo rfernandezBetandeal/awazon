@@ -30,7 +30,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/{id}', name: 'app_user')]
-    public function index($id, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function index($id, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
 
         $user = $this->em->getRepository(User::class)->find($id);
@@ -41,6 +41,8 @@ class UserController extends AbstractController
         if ($changeUserForm->isSubmitted() && $changeUserForm->isValid()) {
             // encode the plain password
 
+            $profilePicture = $changeUserForm->get('profile_picture')->getData();
+
             if(!empty($changeUserForm->get('new_password')->getData()) && $changeUserForm->get('new_password')->getData() != ""){
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
@@ -50,7 +52,24 @@ class UserController extends AbstractController
                 );
             }
 
+            if($profilePicture)
+            {
+                $originalFilename = pathinfo($profilePicture->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFileName = $slugger->slug($originalFilename);
+                $newFileName = $safeFileName.'-'.uniqid().'.'.$profilePicture->guessExtension();
 
+                try {
+                    $profilePicture->move(
+                        $this->getParameter('user_files_directory'),
+                        $newFileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    throw new \Exception($e->getMessage());
+                }
+
+                $user->setProfilePicture($newFileName);
+            }
 
             $naame = $changeUserForm->get('name')->getData();
             echo $naame;

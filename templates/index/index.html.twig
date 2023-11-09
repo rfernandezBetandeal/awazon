@@ -4,34 +4,29 @@
 
 {% block body %}
 
+    <div id="categoryContainer" class=" container d-flex w-100 justify-content-around align-items-center mt-3">
+
+        {% for category in categories %}
+
+        <a class="btn btn-success text-light text-decoration-none d-flex justify-content-center align-items-center mx-1" style="width: 100%; height: 40px;" href="{{ asset('search/' ~ category.category) }}">
+            <div class="card-body" style="width: 100%;">
+              <h5 class="card-text text-center" style="font-size: 1rem;">{{ category.category }}</h5>
+            </div>
+        </a>
+
+        {% endfor %}
+
+    </div>
+
     <div id="container" class="d-flex flex-wrap p-3 px-4 mx-3 justify-content-center">
     {% for item in item %}
 
-        {# <div id="item{{ item.id }}" class="" style="width:33%">
-
-            <div id="imageItem{{ item.id }}" class="">
-
-                <img src="">
-
-            </div>
-             <div id="dataItem{{ item.id }}">
-
-                <div id="nameItem{{ item.id }}"><a href="{{ asset("item/" ~ item.url) }}"><p>{{ item.name | upper }}</p></a></div>
-                <div id="descriptionItem{{ item.id }}"><p>{{ item.description | upper }}</p></div>
-                <div id="brand{{ item.id }}"><p>{{ item.brand | upper }}</p></div>
-                <div id="size{{ item.id }}"><p>{{ item.size | upper }}</p></div>
-                <div id="price{{ item.id }}"><p>{{ item.price ~ "€" }}</p></div>
-
-            </div>
-
-
-        </div> #}
-
         <div class="{% if item.important %} d-flex justify-content-around flex-row {% else %}  {% endif %} card my-1 mx-2 p-0" style="{% if item.important %} width: 36rem; {% else %} width: 18rem; {% endif %} min-height:350px;">
-            <div class="bg-danger-subtle mx-0 {% if item.important %} h-100 w-50 {% else %} h-50 {% endif %}" style="{% if item.important %} {% else %} height: 50%; {% endif %}">
-                <img src="" class="card-img-top" alt="Not found">
+            <div class="bg-danger-subtle mx-0 {% if item.important %} h-100 w-50 {% else %}  {% endif %}" style="{% if item.important %} {% else %} height: 45%; {% endif %}">
+{#                 <img src="{% set index = loop.index0 %}  {% if index < images|length %}  {{ asset('uploads/user_pictures/' ~ images[index].route) }}  {% endif %}" class="card-img-top object-fit-cover h-100" alt="Not found"> #}
+                    <img src="{% set index = loop.index0 %} {{ asset('uploads/user_pictures/' ~ item.portada) }}" class="card-img-top object-fit-cover h-100 w-100" alt="Not found"/>
             </div>
-            <div class="position-relative card-body {% if item.important %} w-50 {% else %} h-50 {% endif %}" >
+            <div class="position-relative card-body {% if item.important %} w-50 {% else %} h-50 {% endif %}" class="card-img-top object-fit-cover h-100" alt="Not found">
                 <h5 class="card-title">{{ item.name | upper }}</h5>
                 <p class="card-text">{{ item.description|length > 50 ? item.description|slice(0, 50) ~ '...' : item.description  }}</p>
                 <p class="card-text">{{ item.price ~ "€" }}</p>

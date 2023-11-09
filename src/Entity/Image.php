@@ -9,6 +9,12 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image
 {
+
+    public function __construct($route = null, $itemId = null){
+        $this->route = $route;
+        $this->item = $itemId;
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

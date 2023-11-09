@@ -5,12 +5,13 @@
 {% block body %}
 
   <div id="removeContainer" class="w-100 d-flex justify-content-end">
-    <a href="{{ asset('remove/item/' ~ item.id) }}"><button type="button" class="btn btn-danger mx-5 my-3">Remove item</button></a>
+    <a href="{{ asset('insert/image/' ~ item.id) }}"><button type="button" class="btn btn-success me-2 my-3">Images</button></a>
+    <a href="{{ asset('remove/item/' ~ item.id) }}"><button type="button" class="btn btn-danger me-3 my-3">Remove item</button></a>
   </div>
 
-  <div id="container" class="d-flex justify-content-around align-items-center"> 
+  <div id="container" class="d-flex justify-content-around align-items-center container"> 
   
-    <div id="carouselExample" class="carousel slide ms-5" style="height:60vh; width:40vw;">
+    <div id="carouselExample" class="carousel slide me-2" style="height:60vh; width:40vw;">
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="d-block bg-primary" style="height:60vh; width:40vw;"></div>
@@ -35,7 +36,7 @@
         </button>
         </div>
 
-    <div id="dataContainer" class="w-50">
+    <div id="dataContainer" class="w-50 ms-3">
 
       {{ form(form) }}
 

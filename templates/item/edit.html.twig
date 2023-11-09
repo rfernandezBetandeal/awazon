@@ -4,36 +4,42 @@
 
 {% block body %}
 
-        <div id="searchContainer" class="d-flex justify-content-around alignt-items-center">
 
-            <div class="navbar w-25">
-            <form class="container-fluid">
+        {{ form_start(search) }}
+        <div id="searchContainer" class="d-flex justify-content-around alignt-items-center w-100">
+
+            <div class="navbar w-25 container-fluid">
                 <div class="input-group">
-                <span class="input-group-text" id="basic-addon1">ID</span>
-                <input type="text" class="form-control" placeholder="Put the ID here" aria-label="ID" aria-describedby="basic-addon1">
+                <span class="input-group-text d-flex align-items-center" id="basic-addon1">{{ form_label(search.id, "ID") }}</span>
+                {{ form_widget(search.id) }}
                 </div>
-            </form>
             </div>
 
-            <div class="navbar w-25">
-            <form class="container-fluid">
+            <div class="navbar w-25 container-fluid">
                 <div class="input-group">
-                <span class="input-group-text" id="basic-addon1">Name</span>
-                <input type="text" class="form-control" placeholder="Put the item name here" aria-label="itemName" aria-describedby="basic-addon1">
+                <span class="input-group-text" id="basic-addon1">{{ form_label(search.name, "Name") }}</span>
+                {{ form_widget(search.name) }}
                 </div>
-            </form>
             </div>
 
-            <div class="navbar w-25">
-            <form class="container-fluid">
+            <div class="navbar w-25 container-fluid">
                 <div class="input-group">
-                <span class="input-group-text" id="basic-addon1">URL</span>
-                <input type="text" class="form-control" placeholder="Put the item URL here" aria-label="URL" aria-describedby="basic-addon1">
+                <span class="input-group-text" id="basic-addon1">{{ form_label(search.url, "URL") }}</span>
+                {{ form_widget(search.url) }}
                 </div>
-            </form>
+            </div>
+
+            <div class="d-flex align-items-center">
+                {{ form_widget(search.search) }}
+
             </div>
 
         </div>
+
+
+        {{ form_end(search) }}
+
+
 
         <div class="list-group">
 

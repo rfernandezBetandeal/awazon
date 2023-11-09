@@ -28,7 +28,7 @@ class ItemRepository extends ServiceEntityRepository
     public function findAllItems(){
         return $this->getEntityManager()
         ->createQuery("
-            SELECT image.id, item.id, image.route, item.name, item.url, item.description, item.price, item.brand
+            SELECT image.id, item.id, image.route, item.name, item.url, item.description, item.price, item.brand, item.category
             FROM App:image image
             JOIN image.item item
             GROUP BY image.item
@@ -40,7 +40,7 @@ class ItemRepository extends ServiceEntityRepository
     
         return $this->getEntityManager()
         ->createQuery("
-            SELECT item.id, item.name, item.description, item.brand, item.url, item.price
+            SELECT item.id, item.name, item.description, item.brand, item.url, item.price, item.category
             FROM App:item item
             WHERE item.url = :url
         ")
@@ -56,6 +56,68 @@ class ItemRepository extends ServiceEntityRepository
             SELECT item.id, item.name, item.description, item.brand, item.url, item.price
             FROM App:item item 
         ");
+    }
+
+    public function findSearch($id = null, $name = null, $url = null){
+
+        if($id == null && $name == null && $url == null){ 
+
+            return $this->getEntityManager()
+            ->createQuery("
+                SELECT item.id, item.name, item.description, item.brand, item.url, item.price, item.category, item.important, item.portada
+                FROM App:item item 
+                ORDER BY item.id DESC
+            ");
+
+        }else{
+
+            return $this->getEntityManager()
+            ->createQuery("
+                SELECT item.id, item.name, item.description, item.brand, item.url, item.price, item.important, item.category, item.portada
+                FROM App:item item 
+                WHERE item.id LIKE :id
+                AND item.name LIKE :name
+                AND item.url LIKE :url
+                ORDER BY item.id DESC
+            ")
+            ->setParameter("id", $id.'%')
+            ->setParameter("name", '%'.$name.'%')
+            ->setParameter("url", '%'.$url.'%');
+
+        }
+    }
+
+    public function findAllSearch(){
+
+        return $this->getEntityManager()
+        ->createQuery("
+            SELECT item.id, item.name, item.description, item.brand, item.url, item.price, item.important, item.category, item.portada
+            FROM App:item item 
+            ORDER BY item.id DESC
+        ");
+
+    }
+
+    public function findCategories(){
+
+        return $this->getEntityManager()
+        ->createQuery("
+            SELECT item.category
+            FROM App:item item 
+            GROUP BY item.category
+        ")->getResult();
+
+    }
+
+    public function findCards(){
+        return $this->getEntityManager()
+        ->createQuery("
+            SELECT item.name, item.description, item.url, item.price, item.important, item.id, item.portada
+            FROM App:item item
+            ORDER BY item.id DESC
+        ")
+        ->setMaxResults(30)
+        ->getResult();
     }
 
     /* public function findComents($itemId)

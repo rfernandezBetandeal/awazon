@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Item;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,10 +24,13 @@ class IndexController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(): Response
     {
-        $item = $this->em->getRepository(Item::class)->findAll();
+        $item = $this->em->getRepository(Item::class)->findCards();
+
+        $categories = $this->em->getRepository(Item::class)->findCategories();
 
         return $this->render('index/index.html.twig', [
             'item' => $item,
+            'categories' => $categories,
         ]);
     }
 }

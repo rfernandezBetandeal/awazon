@@ -9,5 +9,87 @@
 
     {{ form_errors(registrationForm) }}
 
-    {{form(registrationForm)}}
+    <div id="container" class="container">
+
+        {{ form_start(registrationForm) }}
+
+            <div id="registerTitle" class="my-3"><p class="text-center fw-bold text-success fs-3">Sign Up now!</p></div>
+
+            <div id="nameSurnameForm" class="d-flex justify-content-around w-100 mb-2">
+
+                <div class="" style="width: 33%;">
+                    {{ form_label(registrationForm.name, "Name*") }}
+                    {{ form_widget(registrationForm.name, {'attr':{'placeholder':'Steven'}}) }}
+                </div>
+
+                <div class="" style="width: 33%;">
+                    {{ form_label(registrationForm.surname1, "Middle Name*") }}
+                    {{ form_widget(registrationForm.surname1, {'attr':{'placeholder':'Smith'}}) }}
+                </div>
+
+                <div class="" style="width: 33%;">
+                    {{ form_label(registrationForm.surname2, "Last name") }}
+                    {{ form_widget(registrationForm.surname2, {'attr':{'placeholder':''}}) }}
+                </div>
+
+            </div>
+
+            <div id="credentials" class="d-flex w-100 flex-column mb-2">
+
+                <div id="usernamePassword" class="d-flex w-100 mb-2">
+                    
+                    <div id="username" class="w-50 me-1">
+
+                        {{ form_label(registrationForm.username, "Username*") }}
+                        {{ form_widget(registrationForm.username, {'attr':{'placeholder':'sSmith93'}}) }}
+
+                    </div>
+
+                    <div id="password" class="w-50 ms-1">
+
+                        {{ form_label(registrationForm.plainPassword, "Password*") }}
+                        {{ form_widget(registrationForm.plainPassword, {'attr':{'placeholder':'**********'}}) }}
+
+                    </div>
+
+                </div>
+
+                <div id="email" class="w-100">
+
+                    {{ form_label(registrationForm.email, "Email*") }}
+                    {{ form_widget(registrationForm.email, {'attr':{'placeholder':'your-email@example.com'}}) }}
+
+                </div>
+
+            </div>
+
+            <div id="details">
+
+                <div id="birthDate" class="mb-2">
+
+                    {{ form_label(registrationForm.bith_date, "Birth Date*") }}
+                    {{ form_widget(registrationForm.bith_date, {'attr':{'placeholder':''}}) }}
+
+                </div>
+
+                <div id="profilePicture">
+
+                    {{ form_label(registrationForm.profile_picture, "Profile Picture") }}
+                    {{ form_widget(registrationForm.profile_picture, {'attr':{}}) }}
+
+                </div>
+
+            </div>
+
+            <div id="buttons" class="d-flex mt-3 mb-5">
+
+                {{ form_widget(registrationForm.submit, {attr:{'class':'btn btn-success w-50'}}) }}
+                <a href="{{ path('app_login') }}" class="btn w-50 btn-light border-success-subtle ms-2">Log In</a>
+                
+            </div>
+
+        {{ form_end(registrationForm) }}
+    
+    </div>
+
 {% endblock %}

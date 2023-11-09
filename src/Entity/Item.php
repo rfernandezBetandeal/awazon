@@ -52,6 +52,12 @@ class Item
     #[ORM\Column(nullable: true)]
     private ?bool $important = null;
 
+    #[ORM\Column(length: 75)]
+    private ?string $category = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $portada = null;
+
     public function __construct($name = NULL, $size = "M", $price = 0, $brand = NULL, $description = NULL)
     {
         $this->images = new ArrayCollection();
@@ -293,6 +299,30 @@ class Item
     public function setImportant(?bool $important): static
     {
         $this->important = $important;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): static
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getPortada(): ?string
+    {
+        return $this->portada;
+    }
+
+    public function setPortada(string $portada): static
+    {
+        $this->portada = $portada;
 
         return $this;
     }

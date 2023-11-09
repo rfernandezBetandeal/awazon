@@ -16,7 +16,7 @@
             
                 <h1 class="bg-body-tertiary text-center m-auto">
                     
-                    <a href="{{ asset("./") }}" class="link-dark text-decoration-none">Awazon!</a>
+                    <a href="{{ asset("./") }}" class="link-dark text-decoration-none fw-bold">Awazon!</a>
                     
                 </h1>
 
@@ -66,29 +66,32 @@
                     <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav navbar-brand me-auto mb-2 mb-lg-0">
-                        <li class="nav-item navbar-brand">
-                        <a class="nav-link active" aria-current="page" href="{{ asset('./') }}">Home</a>
-                        </li>
-
-                        {% if is_granted("ROLE_ADMIN") %}
-
+                        <ul class="navbar-nav navbar-brand me-auto mb-2 mb-lg-0">
                             <li class="nav-item navbar-brand">
-                            <a class="nav-link active" href="{{ asset("create/item") }}">Create Item</a>
+                            <a class="nav-link active" aria-current="page" href="{{ asset('./') }}">Home</a>
+                            </li>
+                            <li class="nav-item navbar-brand">
+                                <a class="nav-link active" aria-current="page" href="{{ path('search') }}">Items</a>
                             </li>
 
-                            <li class="nav-item navbar-brand">
-                            <a class="nav-link active" href="{{ asset("edit/item") }}">Edit Items</a>
-                            </li>
+                            {% if is_granted("ROLE_ADMIN") %}
 
-                        {% endif %}
-                    </ul>
-                    <div class="d-flex">
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                    </div>
+                                <li class="nav-item navbar-brand">
+                                <a class="nav-link active" href="{{ asset("create/item") }}">Create Item</a>
+                                </li>
+
+                                <li class="nav-item navbar-brand">
+                                <a class="nav-link active" href="{{ asset("edit/item") }}">Edit Items</a>
+                                </li>
+
+                            {% endif %}
+                        </ul>
+                        {# <div class="d-flex">
+                            <form class="d-flex" role="search" method="GET" action="{{ path('searchItem') }}">
+                                <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
+                        </div> #}
                     </div>
                 </div>
             </nav>

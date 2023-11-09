@@ -12,11 +12,15 @@
 
                 <img style="width: 300px; height:300px" class="rounded-circle" src="{{ asset("uploads/user_pictures/" ~ app.user.profilePicture) }}"/> 
 
+            {% else %}
+
+                <div style="width: 300px; height:300px" class="rounded-circle bg-secondary"></div> 
+
             {% endif %}
 
         </div>
 
-        <div id="data" class="ms-5">
+        <div id="data" class="ms-5 w-50">
         
             {{ form(editForm) }}
         

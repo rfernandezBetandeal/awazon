@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Insert Images{% endblock %}
+
+
+{% block body %}
+
+    <div id="imagesContainer" class="mb-2 container mt-4">
+
+        {% for image in images %}
+
+        
+            <div class="list-group-item list-group-item-action my-2" aria-current="true">
+                <div class="d-flex w-100 justify-content-between">
+                    <div class="d-flex align-items-center justify-content-between w-25">
+                        <small>ID #{{ image.id }}</small>
+                        <h5 class="mb-1 d-flex"><img src="{{ asset('uploads/user_pictures/' ~ image.route) }}" style="width: 100px;"/></h5>
+                    </div>
+                        <h5 class="mb-1">{{ image.route }}</h5>
+                        <a href="{{ asset('remove/image/' ~ image.id ~ "/" ~ item.id )}}">
+                            <button class="btn btn-danger">Delete</button>
+                        </a>
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+    {{ form_start(imageForm) }}
+
+        <div id="container" class="container pt-2 mt-2 mb-5">
+
+
+            <div class="list-group-item list-group-item-action my-2" aria-current="true">
+                <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ item.name }}</h5>
+                <small>#{{ item.id }}</small>
+                </div>
+                <p class="mb-1">{{ item.url }}</p>
+                <small>{{ item.description }}</small>
+            </div>
+
+            <div class="form-control mt-3 mb-3">
+                {{ form_widget(imageForm.route, {attr: {"class": "w-100"}}) }}
+            </div>
+
+            {{ form_widget(imageForm.submit, {attr: {"class": "w-100 btn-success mt-3"}}) }}
+
+
+            
+        </div>
+
+    {{ form_end(imageForm) }}
+
+{% endblock %}

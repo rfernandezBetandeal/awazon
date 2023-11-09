@@ -39,6 +39,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    public function findWithNoImage($id){
+        return $this->getEntityManager()
+        ->createQuery('
+            SELECT user.id, user.name, user.surname1, user.surname2, user.email, user.username
+            FROM App:user user
+            WHERE user.id = :id
+        ')
+        ->setParameter('id', $id)
+        ->getResult();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
