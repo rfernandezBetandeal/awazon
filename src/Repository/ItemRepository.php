@@ -58,7 +58,7 @@ class ItemRepository extends ServiceEntityRepository
         ");
     }
 
-    public function findSearch($id = null, $name = null, $url = null){
+    public function findSearch($id = null, $name = null, $url = null, $category = null){
 
         if($id == null && $name == null && $url == null){ 
 
@@ -71,18 +71,39 @@ class ItemRepository extends ServiceEntityRepository
 
         }else{
 
-            return $this->getEntityManager()
-            ->createQuery("
-                SELECT item.id, item.name, item.description, item.brand, item.url, item.price, item.important, item.category, item.portada
-                FROM App:item item 
-                WHERE item.id LIKE :id
-                AND item.name LIKE :name
-                AND item.url LIKE :url
-                ORDER BY item.id DESC
-            ")
-            ->setParameter("id", $id.'%')
-            ->setParameter("name", '%'.$name.'%')
-            ->setParameter("url", '%'.$url.'%');
+            if($category == null){
+
+                return $this->getEntityManager()
+                ->createQuery("
+                    SELECT item.id, item.name, item.description, item.brand, item.url, item.price, item.important, item.category, item.portada
+                    FROM App:item item 
+                    WHERE item.id LIKE :id
+                    AND item.name LIKE :name
+                    AND item.url LIKE :url
+                    ORDER BY item.id DESC
+                ")
+                ->setParameter("id", $id.'%')
+                ->setParameter("name", '%'.$name.'%')
+                ->setParameter("url", '%'.$url.'%');
+
+            }else{
+            
+                return $this->getEntityManager()
+                ->createQuery("
+                    SELECT item.id, item.name, item.description, item.brand, item.url, item.price, item.important, item.category, item.portada
+                    FROM App:item item 
+                    WHERE item.id LIKE :id
+                    AND item.name LIKE :name
+                    AND item.url LIKE :url
+                    AND item.category LIKE :category
+                    ORDER BY item.id DESC
+                ")
+                ->setParameter("id", $id.'%')
+                ->setParameter("name", '%'.$name.'%')
+                ->setParameter("url", '%'.$url.'%')
+                ->setParameter('category', $category);
+            
+            }
 
         }
     }

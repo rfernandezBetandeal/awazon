@@ -31,6 +31,17 @@ class ImageRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+    public function getImageDedicated($item){
+        return $this->getEntityManager()
+        ->createQuery("
+            SELECT image.route, image.item
+            FROM App:image image
+            WHERE item = :item
+        ")
+        ->setParameter('item', $item)
+        ->getResult();
+    }
+
 //    /**
 //     * @return Image[] Returns an array of Image objects
 //     */

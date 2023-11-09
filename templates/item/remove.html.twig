@@ -13,18 +13,13 @@
   
     <div id="carouselExample" class="carousel slide me-2" style="height:60vh; width:40vw;">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="d-block bg-primary" style="height:60vh; width:40vw;"></div>
-            {# <img src="" class="d-block w-100" alt="..."> #}
-            </div>
-            <div class="carousel-item">
-                <div class="d-block bg-success" style="height:60vh; width:40vw;"></div>
-            {# <img src="" class="d-block w-100" alt="..."> #}
-            </div>
-            <div class="carousel-item">
-                <div class="d-block bg-danger" style="height:60vh; width:40vw;"></div>
-            {# <img src="" class="d-block w-100" alt="..."> #}
-            </div>
+          {% for image in images %}
+
+          <div class="carousel-item active">
+              <img src="{{ asset('uploads/user_pictures/' ~ image.route ) }}" style="width: 40vw; height: 60vh;" class="d-block" alt="...">
+          </div>
+
+          {% endfor %}
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

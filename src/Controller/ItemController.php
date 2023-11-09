@@ -32,7 +32,7 @@ class ItemController extends AbstractController
     public function index($url, Request $request): Response
     {
         $item = $this->em->getRepository(Item::class)->findByUrl($url);
-        
+        $images = $this->em->getRepository(Image::class)->findBy(['item' => $item]);        
 
         $itemId = $item[0]['id'];
 
@@ -59,6 +59,7 @@ class ItemController extends AbstractController
 
         return $this->render('item/item.html.twig', [
             'item' => $item,
+            'images' => $images,
 /*             'custom_item' => $custom_item,
  */         'coments' => $coments,
             'newComent' => $newComent->createView(),
@@ -117,7 +118,7 @@ class ItemController extends AbstractController
     {
 
         $item = $this->em->getRepository(Item::class)->find($id);
-
+        $images = $this->em->getRepository(Image::class)->findBy(['item' => $item]);
         $form = $this->createForm(ItemType::class, $item);
 
         /* $image = new Image();
@@ -155,6 +156,7 @@ class ItemController extends AbstractController
         }
 
         return $this->render('item/remove.html.twig', [
+            'images' => $images,
             'form' => $form->createView(),
             'item' => $item,
             /* 'imageForm' => $imageForm->createView(), */
@@ -278,7 +280,7 @@ class ItemController extends AbstractController
 
             $name = $search->get('name')->getData();
 
-            $query = $this->em->getRepository(Item::class)->findSearch(name: $name);
+            $query = $this->em->getRepository(Item::class)->findSearch(name: $name, category: $category);
 
             $pagination = $paginator->paginate(
                 $query, /* query NOT result */
@@ -369,4 +371,18 @@ class ItemController extends AbstractController
  
             return $this->redirectToRoute('insertImage', ['itemId'=> $itemId]);
     }
+
+    #[Route('/set/portada/{image}/{itemId}', name: 'setPortada')]
+    public function setPortada($image, $itemId){
+
+        $item = $this->em->getRepository(Item::class)->find($itemId);
+
+        $item->setPortada($image);
+
+        $this->em->flush();
+
+        return $this->redirectToRoute('insertImage', ['itemId' => $itemId]);
+
+    }
+
 }

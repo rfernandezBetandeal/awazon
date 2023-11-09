@@ -9,18 +9,14 @@
 
         <div id="carouselExample" class="carousel slide ms-5" style="height:60vh; width:40vw;">
         <div class="carousel-inner">
+
+            {% for image in images %}
+
             <div class="carousel-item active">
-                <div class="d-block bg-primary" style="height:60vh; width:40vw;"></div>
-            {# <img src="" class="d-block w-100" alt="..."> #}
+                <img src="{{ asset('uploads/user_pictures/' ~ image.route ) }}" style="width: 40vw; height: 60vh;" class="d-block" alt="...">
             </div>
-            <div class="carousel-item">
-                <div class="d-block bg-success" style="height:60vh; width:40vw;"></div>
-            {# <img src="" class="d-block w-100" alt="..."> #}
-            </div>
-            <div class="carousel-item">
-                <div class="d-block bg-danger" style="height:60vh; width:40vw;"></div>
-            {# <img src="" class="d-block w-100" alt="..."> #}
-            </div>
+
+            {% endfor %}
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -35,9 +31,9 @@
         <div id="dataContainer" class="pe-5" style="width: 40vw">
         
             <div id="nameIdContainer">
-                <p class="fw-bold">{{ item[0].name | upper }} <span class="fst-normal text-secondary opacity-50">#{{ item[0].id }}</span></p>
+                <p class="fw-bold fs-3">{{ item[0].name | upper }} <span class="fst-normal text-secondary opacity-50">#{{ item[0].id }}</span></p>
             </div>
-            <p>{{ item[0].description }}</p>
+            <p class="">{{ item[0].description }}</p>
             <p class="text-black-50">{{ item[0].brand | upper }}</p>
             <p>{{ item[0].price }}€</p>
 

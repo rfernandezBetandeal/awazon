@@ -16,10 +16,15 @@
                         <small>ID #{{ image.id }}</small>
                         <h5 class="mb-1 d-flex"><img src="{{ asset('uploads/user_pictures/' ~ image.route) }}" style="width: 100px;"/></h5>
                     </div>
-                        <h5 class="mb-1">{{ image.route }}</h5>
+                    <h5 class="mb-1">{{ image.route }}</h5>
+                    <div id="buttons">
                         <a href="{{ asset('remove/image/' ~ image.id ~ "/" ~ item.id )}}">
                             <button class="btn btn-danger">Delete</button>
                         </a>
+                        <a href="{{ asset('set/portada/' ~ image.route) ~ '/' ~ item.id }}">                            
+                            <button class="btn btn-success">Select Portada</button>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -46,7 +51,6 @@
             </div>
 
             {{ form_widget(imageForm.submit, {attr: {"class": "w-100 btn-success mt-3"}}) }}
-
 
             
         </div>
