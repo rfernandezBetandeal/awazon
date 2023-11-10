@@ -33,6 +33,7 @@
                         </a>
                         <ul class="dropdown-menu z-6">
                             <li><a class="dropdown-item" href="{{ asset('user/' ~ app.user.id) }}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ asset('favorites/') }}">Favorite items</a></li>
                             <li><a class="dropdown-item" href="{{ asset('logout') }}">Log out</a></li>
                         </ul>
                         
@@ -100,5 +101,6 @@
         {% block body %}{% endblock %}
         <script src="{{asset('js/bootstrap.min.js')}}"></script>
         <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+        <script src="https://kit.fontawesome.com/339ad83339.js" crossorigin="anonymous"></script>
     </body>
 </html>

@@ -50,6 +50,36 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ->getResult();
     }
 
+    public function findFavorite($item, $user){
+
+        return $this->getEntityManager()
+        ->createQuery('
+            SELECT item
+            FROM App:item item
+            JOIN item.user
+            
+        ')
+        ->setParameter('item', $item)
+        ->setParameter('user', $user)
+        ->getResult();
+
+    }
+
+    /* public function findFavorite($item, $user){
+
+        return $this->getEntityManager()
+        ->createQuery('
+            SELECT user.fav, item.userValueItem
+            FROM App:user user
+            JOIN user.fav item
+            
+        ')
+        ->setParameter('item', $item)
+        ->setParameter('user', $user)
+        ->getResult();
+
+    } */
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

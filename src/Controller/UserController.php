@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Item;
 use App\Entity\User;
 use App\Form\ChangeUserType;
 use App\Form\RegistrationFormType;
@@ -187,6 +188,53 @@ class UserController extends AbstractController
         //die(var_dump($user->getId()));
 
         return $this->redirectToRoute('app_user', ['id'=> $id]);
+
+    }
+
+    #[Route('/add/favorite/{itemId}', name: 'addFavorite')]
+    public function addFavorite($itemId): Response {
+
+        $user = $this->getUser();
+        $item = $this->em->getRepository(Item::class)->find($itemId);
+        $url = $item->getUrl();
+
+        $user->addUserValueItem($item);
+            $this->em->persist($user);
+            $this->em->flush();
+
+        //die(var_dump($user->getId()));
+
+        return $this->redirectToRoute('app_item', ['url'=> $url]);
+
+    }
+
+    #[Route('/remove/favorite/{itemId}', name: 'removeFavorite')]
+    public function removeFavorite($itemId): Response {
+
+        $user = $this->getUser();
+        $item = $this->em->getRepository(Item::class)->find($itemId);
+        $url = $item->getUrl();
+
+            $user->addUserValueItem($item);
+            $this->em->persist($user);
+            $this->em->flush();
+
+        //die(var_dump($user->getId()));
+
+        return $this->redirectToRoute('app_item', ['url'=> $url]);
+
+    }
+
+    #[Route('/favorites/', name: 'userFavorites')]
+    public function userFavorites(): Response {
+
+        $favs = $this->getUser()->getUserValueItem();
+
+        //die(var_dump($user->getId()));
+
+        return $this->render('user/favorites.html.twig', [
+            'favs'=> $favs,
+        ]);
 
     }
 

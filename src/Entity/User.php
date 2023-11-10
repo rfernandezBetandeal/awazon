@@ -313,19 +313,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addUserValueItem(Item $userValueItem): static
     {
+
         if (!$this->userValueItem->contains($userValueItem)) {
             $this->userValueItem->add($userValueItem);
+        }else{
+            $this->userValueItem->removeElement($userValueItem);
         }
 
         return $this;
     }
-
+/* 
     public function removeUserValueItem(Item $userValueItem): static
     {
         $this->userValueItem->removeElement($userValueItem);
 
         return $this;
-    }
+    } */
 
     /**
      * @return Collection<int, item1>

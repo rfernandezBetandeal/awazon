@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Coment;
 use App\Entity\Image;
 use App\Entity\Item;
+use App\Entity\User;
 use App\Form\ImageType;
 use App\Form\ItemType;
 use App\Form\NewComentType;
@@ -32,7 +33,14 @@ class ItemController extends AbstractController
     public function index($url, Request $request): Response
     {
         $item = $this->em->getRepository(Item::class)->findByUrl($url);
-        $images = $this->em->getRepository(Image::class)->findBy(['item' => $item]);        
+        $itemId = $item[0]['id'];
+        $images = $this->em->getRepository(Image::class)->findBy(['item' => $itemId]);
+
+        if($this->getUser()){
+            $favs = $this->getUser()->getUserValueItem();
+        }else{
+            $favs = null;
+        }
 
         $itemId = $item[0]['id'];
 
@@ -58,6 +66,7 @@ class ItemController extends AbstractController
         }
 
         return $this->render('item/item.html.twig', [
+            'fav' => $favs,
             'item' => $item,
             'images' => $images,
 /*             'custom_item' => $custom_item,

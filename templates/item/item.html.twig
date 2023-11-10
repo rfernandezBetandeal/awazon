@@ -4,7 +4,6 @@
 
 {% block body %}
 
-
     <div id="itemContainer" class="d-flex justify-content-around align-items-center px-5 mb-5 mt-5">
 
         <div id="carouselExample" class="carousel slide ms-5" style="height:60vh; width:40vw;">
@@ -12,11 +11,12 @@
 
             {% for image in images %}
 
-            <div class="carousel-item active">
-                <img src="{{ asset('uploads/user_pictures/' ~ image.route ) }}" style="width: 40vw; height: 60vh;" class="d-block" alt="...">
-            </div>
+                <div class="carousel-item active">
+                    <img src=" {{ asset('uploads/user_pictures/' ~ image.route ) }}" style="width: 40vw; height: 60vh;" class="d-block" alt="...">
+                </div>
 
             {% endfor %}
+
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -29,6 +29,30 @@
         </div>
 
         <div id="dataContainer" class="pe-5" style="width: 40vw">
+
+            {% set favLink = false %}
+
+            {% for favItem in fav %}
+            
+                {% if item[0].id == favItem.id %}
+
+                    {% set favLink = true %}
+
+                {% endif %}
+
+            {% endfor %}
+
+            {% if fav != null %}
+
+            <div id="fav"><a href="{% if favLink %} {{ asset('remove/favorite/' ~ item[0].id ) }} {% else %} {{ asset('add/favorite/' ~ item[0].id ) }}  {% endif %}">
+                {% if favLink %} 
+                    <i class="fa-solid fa-heart text-success-emphasis fs-5"></i> 
+                {% else %} 
+                    <i class="fa-regular fa-heart text-success-emphasis fs-5"></i> 
+                {% endif %}
+            </a></div>
+
+            {% endif %}
         
             <div id="nameIdContainer">
                 <p class="fw-bold fs-3">{{ item[0].name | upper }} <span class="fst-normal text-secondary opacity-50">#{{ item[0].id }}</span></p>
@@ -47,20 +71,21 @@
 
         <ul class="list-group list-group-flush d-flex flex-direction-column g-row-2 justify-content-around align-items-center" id="comentContainer">
 
+            {% if is_granted("ROLE_USER") %}
 
                 <li class="list-group-item d-flex" id="newComent" style="width: 80vw;">
                 
                     <div id="newComentImage" class="d-flex justify-content-center align-items-center me-3">
                     
-                        {% if app.user.profilePicture != null %}
+                            {% if app.user.profilePicture != null %}
 
-                            <img src="{{ asset("uploads/user_pictures/") ~ app.user.profilePicture }}" alt="Not Found" style="height: 50px; width: 50px;" class="rounded-circle">
+                                <img src="{{ asset("uploads/user_pictures/") ~ app.user.profilePicture }}" alt="Not Found" style="height: 50px; width: 50px;" class="rounded-circle">
 
-                        {% else %}
+                            {% else %}
 
-                            <div class="bg-success-subtle" style="height: 50px; width: 50px;" class="rounded-circle"></div>
+                                <div class="bg-success-subtle" style="height: 50px; width: 50px;" class="rounded-circle"></div>
 
-                        {% endif %}
+                            {% endif %}
                     
                     </div>
 
@@ -77,6 +102,8 @@
                     </div>
                 
                 </li>
+            {% endif %}
+
 
         </ul>
 
