@@ -55,7 +55,7 @@ class Item
     #[ORM\Column(length: 75)]
     private ?string $category = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $portada = null;
 
     public function __construct($name = NULL, $size = "M", $price = 0, $brand = NULL, $description = NULL)
