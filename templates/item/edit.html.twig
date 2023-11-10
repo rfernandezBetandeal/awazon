@@ -4,7 +4,6 @@
 
 {% block body %}
 
-
         {{ form_start(search) }}
         <div id="searchContainer" class="d-flex justify-content-around alignt-items-center w-100">
 
@@ -51,7 +50,7 @@
                     <small>#{{ item.id }}</small>
                     </div>
                     <p class="mb-1">{{ item.url }}</p>
-                    <small>{{ item.description }}</small>
+                    <small>{{ item.description|length > 250 ? item.description|slice(0, 250) ~ '...' : item.description }}</small>
                 </a>
 
             {% endfor %}

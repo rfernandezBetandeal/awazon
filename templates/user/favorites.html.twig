@@ -9,11 +9,11 @@
         {% for fav in favs %}
 
         
-                <div class="{% if fav.important %} d-flex justify-content-around flex-row {% else %}  {% endif %} card my-1 mx-2 p-0" style="{% if fav.important %} width: 36rem; {% else %} width: 18rem; {% endif %} min-height:350px;">
-                    <div class="bg-danger-subtle mx-0 {% if fav.important %} h-100 w-50 {% else %} h-50 {% endif %}" style="{% if fav.important %} {% else %} height: 50%; {% endif %}">
+                <div class="card my-1 mx-2 p-0" style="width: 18rem; min-height:350px;">
+                    <div class="bg-danger-subtle mx-0 h-50" style="">
                         <img src="{# {% for image in images %} #} {# {% set index = loop.index0 %} #} {#  {% if index < images|length %} #}  {{ asset('uploads/user_pictures/' ~ fav.portada) }}  {# {% endif %}  #} {# {% endfor %} #}" class="card-img-top object-fit-cover h-100" alt="Not found">
                     </div>
-                    <div class="position-relative card-body {% if fav.important %} w-50 {% else %} h-50 {% endif %}" >
+                    <div class="position-relative card-body h-50">
                         <h5 class="card-title">{{ fav.name | upper }}</h5>
                         <p class="card-text">{{ fav.description|length > 50 ? fav.description|slice(0, 50) ~ '...' : fav.description  }}</p>
                         <p class="card-text">{{ fav.price ~ "€" }}</p>
