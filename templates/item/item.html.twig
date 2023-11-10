@@ -61,7 +61,13 @@
             <p class="text-black-50">{{ item[0].brand | upper }}</p>
             <p>{{ item[0].price }}€</p>
 
-            <button type="button" class="btn btn-success m-auto">Add to the basket</button>
+            {% if is_granted('ROLE_USER') %}
+                <a href="{{ asset('add/basket/' ~ item[0].id ) }}" class="text-decoration-none text-light"><button type="button" class="btn btn-success m-auto">Buy this item</button></a>
+            {% else %}
+
+                <a class="text-decoration-none text-light" href="{{ asset("login") }}"><button class="btn btn-success ">Log In</button></a>
+
+            {% endif %}
         
         </div>
 
@@ -72,6 +78,8 @@
         <ul class="list-group list-group-flush d-flex flex-direction-column g-row-2 justify-content-around align-items-center" id="comentContainer">
 
             {% if is_granted("ROLE_USER") %}
+
+            
 
                 <li class="list-group-item d-flex" id="newComent" style="width: 80vw;">
                 
@@ -91,6 +99,8 @@
 
                     <div id="userData" class="pt-4 w-100">
 
+                        {{ form_start(newComent) }}
+
                         <p id="name" class="fw-bold">{{ app.user.username }}</p>
                         
                         <div id="newComent" class="mb-2 w-100">
@@ -99,9 +109,13 @@
 
                         {{ form_widget(newComent.send) }}
 
+                        {{ form_end(newComent) }}
+
+
                     </div>
                 
                 </li>
+
             {% endif %}
 
 

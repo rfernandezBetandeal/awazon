@@ -7,6 +7,7 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+            <link rel="stylesheet" href="{{asset('css/slide.css')}}">
         {% endblock %}
     </head>
     <body>
@@ -87,6 +88,19 @@
 
                             {% endif %}
                         </ul>
+
+                        {# <div id='slide_nav'>
+                            <p id="slide_nav_button" class="nav-link active"><i class="fa-solid fa-basket-shopping"></i></p>
+                        </div>
+                        <ul id='slide_menu' class="bg-success text-light">
+                            <li><p class="text-light w-100 text-center mt-3 fw-bold fs-4">My Basket</p></li>
+                            <li><a href="#" class="text-light">Home</a></li>
+                            <li><a href="#" class="text-light">About</a></li>
+                            <li><a href="#" class="text-light">Contact</a></li>
+                            <li><a href="#" class="text-light">Tutorial</a></li>
+                            <li><a href="#" class="text-light">Advertise</a></li>
+                        </ul> #}
+                        </nav>
                         {# <div class="d-flex">
                             <form class="d-flex" role="search" method="GET" action="{{ path('searchItem') }}">
                                 <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
@@ -102,5 +116,7 @@
         <script src="{{asset('js/bootstrap.min.js')}}"></script>
         <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
         <script src="https://kit.fontawesome.com/339ad83339.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="{{asset('js/slide.js')}}"></script>
     </body>
 </html>

@@ -222,7 +222,21 @@ class ItemController extends AbstractController
     {
 
         $item = $this->em->getRepository(Item::class)->find($id);
+        $itemId = $item->getId();
+        $coments = $this->em->getRepository(Coment::class)->findBy(['item' => $itemId]);
 
+        foreach ($coments as $coment) {
+
+            $item->removeComent($coment);
+
+        }
+
+        foreach ($coments as $coment) {
+
+            $this->em->remove($coment);
+
+        }
+            
             $this->em->remove($item);
             $this->em->flush();
  

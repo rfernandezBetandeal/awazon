@@ -26,7 +26,7 @@ class Basket
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    public function __construct()
+    public function __construct($items = null)
     {
         $this->items = new ArrayCollection();
     }
