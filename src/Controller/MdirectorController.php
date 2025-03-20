@@ -167,6 +167,8 @@ class MdirectorController extends AbstractController
 
         ]);
     }
+    
+    // ---------------------------------------------------------------------------------------------------
 
     #[Route('/mdirector/contacto/crear', name: 'app_mdirector_contacto_crear')]
     //SE USA PARA BORRAR UN ENVÍO PROGRAMADO
@@ -237,7 +239,7 @@ class MdirectorController extends AbstractController
 
         $client = (new \MDOAuth\OAuth2\Wrapper\MDirector\Factory())->create($companyId, $secret);
         $response = $client->setUri(uri: 'https://api.mdirector.com/api_contact')
-            ->setMethod('post')
+            ->setMethod('put')
             ->setParameters([
                 //OBLIGATORIO
                 'listId' => null, //Identificador de la lista
@@ -292,7 +294,7 @@ class MdirectorController extends AbstractController
 
         $client = (new \MDOAuth\OAuth2\Wrapper\MDirector\Factory())->create($companyId, $secret);
         $response = $client->setUri(uri: 'https://api.mdirector.com/api_contact')
-            ->setMethod('post')
+            ->setMethod('get')
             ->setParameters([
                 //OBLIGATORIO
                 'listId' => null, //Identificador de la lista POR DEFECTO 1
@@ -311,9 +313,9 @@ class MdirectorController extends AbstractController
         ]);
     }
 
-    #[Route('/mdirector/contacto/modificar', name: 'app_mdirector_contacto_modificar')]
+    #[Route('/mdirector/contacto/borrar', name: 'app_mdirector_contacto_borrar')]
     //SE USA PARA BORRAR UN CONTACTO
-    public function BorrarContacto(): Response
+    public function borrarContacto(): Response
     {
 
         $companyId = '118312';
@@ -321,7 +323,7 @@ class MdirectorController extends AbstractController
 
         $client = (new \MDOAuth\OAuth2\Wrapper\MDirector\Factory())->create($companyId, $secret);
         $response = $client->setUri(uri: 'https://api.mdirector.com/api_contact')
-            ->setMethod('post')
+            ->setMethod('delete')
             ->setParameters([
                 //OBLIGATORIO
                 'listId' => null, //Identificador de la lista
@@ -349,4 +351,102 @@ class MdirectorController extends AbstractController
 
         ]);
     }
+
+    // ------------------------------------------------------------------------------------
+
+    #[Route('/mdirector/lista/get', name: 'app_mdirector_lista_get')]
+    //SE USA PARA BORRAR UN ENVÍO PROGRAMADO
+    public function getLista(): Response
+    {
+
+        $companyId = '118312';
+        $secret = '9264f852d5409bfc8edad97f2cf5f208d147acdc746a0a9f096a2c8c29ddabe2f056bfc0592b4c32';
+
+        $client = (new \MDOAuth\OAuth2\Wrapper\MDirector\Factory())->create($companyId, $secret);
+        $response = $client->setUri('https://api.mdirector.com/api_list')
+            ->setMethod('get')
+            ->setParameters([])
+            ->setUserAgent('MyOwnUserAgent 1.0')
+            ->request();
+
+        return $this->render('mdirector/index.html.twig', [
+            'controller_name' => 'MdirectorController',
+            'data'=> json_decode($response->getBody()->getContents())->data,
+
+        ]);
+    }
+
+    #[Route('/mdirector/lista/crear', name: 'app_mdirector_lista_crear')]
+    //SE USA PARA BORRAR UN ENVÍO PROGRAMADO
+    public function crearLista(): Response
+    {
+
+        $companyId = '118312';
+        $secret = '9264f852d5409bfc8edad97f2cf5f208d147acdc746a0a9f096a2c8c29ddabe2f056bfc0592b4c32';
+
+        $client = (new \MDOAuth\OAuth2\Wrapper\MDirector\Factory())->create($companyId, $secret);
+        $response = $client->setUri('https://api.mdirector.com/api_list')
+            ->setMethod('post')
+            ->setParameters([
+                'listName' => null,
+            ])
+            ->setUserAgent('MyOwnUserAgent 1.0')
+            ->request();
+
+        return $this->render('mdirector/index.html.twig', [
+            'controller_name' => 'MdirectorController',
+            'data'=> json_decode($response->getBody()->getContents())->data,
+
+        ]);
+    }
+
+    #[Route('/mdirector/lista/cambiar', name: 'app_mdirector_lista_cambiar')]
+    //SE USA PARA BORRAR UN ENVÍO PROGRAMADO
+    public function changeLista(): Response
+    {
+
+        $companyId = '118312';
+        $secret = '9264f852d5409bfc8edad97f2cf5f208d147acdc746a0a9f096a2c8c29ddabe2f056bfc0592b4c32';
+
+        $client = (new \MDOAuth\OAuth2\Wrapper\MDirector\Factory())->create($companyId, $secret);
+        $response = $client->setUri('https://api.mdirector.com/api_list')
+            ->setMethod('put')
+            ->setParameters([
+                'listName' => null,
+                'listId' => null,
+            ])
+            ->setUserAgent('MyOwnUserAgent 1.0')
+            ->request();
+
+        return $this->render('mdirector/index.html.twig', [
+            'controller_name' => 'MdirectorController',
+            'data'=> json_decode($response->getBody()->getContents())->data,
+
+        ]);
+    }
+
+    #[Route('/mdirector/lista/borrar', name: 'app_mdirector_lista_borrar')]
+    //SE USA PARA BORRAR UN ENVÍO PROGRAMADO
+    public function deleteLista(): Response
+    {
+
+        $companyId = '118312';
+        $secret = '9264f852d5409bfc8edad97f2cf5f208d147acdc746a0a9f096a2c8c29ddabe2f056bfc0592b4c32';
+
+        $client = (new \MDOAuth\OAuth2\Wrapper\MDirector\Factory())->create($companyId, $secret);
+        $response = $client->setUri('https://api.mdirector.com/api_list')
+            ->setMethod('get')
+            ->setParameters([
+                'listId' => null, //El id de la lista a modificar. También es posible enviar una lista de identificadores para eliminar varias listas de forma simultánea. Pueden ser enviados en formato json, ej: [ 123, 456, 789 ]
+            ])
+            ->setUserAgent('MyOwnUserAgent 1.0')
+            ->request();
+
+        return $this->render('mdirector/index.html.twig', [
+            'controller_name' => 'MdirectorController',
+            'data'=> json_decode($response->getBody()->getContents())->data,
+
+        ]);
+    }
+
 }
